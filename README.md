@@ -41,14 +41,36 @@ Go to "Virtual networks" and create a new virtual network.
 Define address spaces and subnets. Ensure connectivity between subnets.
 </p>
 <p>
-  o to "Virtual networks" and create a new virtual network.</p>
+Go to "Virtual machines" in the Azure Portal.
+
+Create Windows Server VMs for Active Directory Domain Services (AD DS). Configure each VM with a unique static private IP.
+
+On each VM, set the DNS server to the private IP address of the other VM (or itself if it's the first DC).
+</p>
 <br />
 
 <p>
 <img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+On the first VM:
+
+Install AD DS by promoting the server to a domain controller.
+Configure a new forest, specifying a domain name.
+On subsequent VMs:
+
+Install AD DS and join them to the existing domain.
+
+Configure AD DS replication between domain controllers.
+
+On one domain controller, enable the Global Catalog role.
+
+Install the DHCP role on one of the domain controllers to provide IP addresses to machines on the network.
+
+Configure DNS to support Active Directory. Ensure DNS zones are replicated across all domain controllers.
+
+Define AD DS sites in Active Directory Sites and Services to optimize replication and logon traffic.
+
 </p>
 <br />
 
@@ -56,6 +78,17 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 <img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-</p>
+Join on-premises machines to the Azure AD DS domain. Update DNS settings on these machines to point to Azure AD DS DNS servers.
+
+Verify AD DS functionality:
+Ensure proper replication.
+Test domain logons, user authentication, and group policy application.
+
+Implement regular backups of Active Directory using Azure Backup or other backup solutions.
+
+Establish a disaster recovery plan and test it to ensure quick recovery in case of issues.
+
+Set up monitoring for Azure resources and Active Directory health.
+
+Regularly update and patch Windows Server VMs.</p>
 <br />
