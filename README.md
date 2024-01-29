@@ -31,43 +31,33 @@ This tutorial outlines the implementation of on-premises Active Directory within
 <p>
 <img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
-<p>Navigate to the Azure Portal and select your subscription.
+<p>
+  Navigate to Azure Portal:
 
-Go to "Virtual networks" and create a new virtual network.
+Go to Azure Portal and sign in to your Azure account.
+Create Virtual Machines:
 
-Define address spaces and subnets. Ensure connectivity between subnets.
+In the Azure Portal, navigate to "Virtual machines" and create two or more VMs with Windows Server installed.
 </p>
 <p>
-Go to "Virtual machines" in the Azure Portal.
-
-Create Windows Server VMs for Active Directory Domain Services (AD DS). Configure each VM with a unique static private IP.
-
-On each VM, set the DNS server to the private IP address of the other VM (or itself if it's the first DC).
+Virtual Network:
+Create a Virtual Network in Azure to connect the Azure VMs. Define subnets and configure network security groups.
 </p>
-<br />
 
 <p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
+  Connect to VMs:
+Use Microsoft Remote Desktop to connect to each Azure VM. Retrieve the public IP addresses for each VM from the Azure Portal.</p>
+
 <p>
-On the first VM:
+  Install AD DS Role:
 
-Install AD DS by promoting the server to a domain controller.
-Configure a new forest, specifying a domain name.
-On subsequent VMs:
+On one VM, open PowerShell as an administrator and run the following command to install the AD DS role:
+Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
+</p>
 
-Install AD DS and join them to the existing domain.
-
-Configure AD DS replication between domain controllers.
-
-On one domain controller, enable the Global Catalog role.
-
-Install the DHCP role on one of the domain controllers to provide IP addresses to machines on the network.
-
-Configure DNS to support Active Directory. Ensure DNS zones are replicated across all domain controllers.
-
-Define AD DS sites in Active Directory Sites and Services to optimize replication and logon traffic.
-
+<p>
+  After installation, promote the VM to a domain controller using the following command:
+  Install-ADDSForest -DomainName yourdomain.local -DomainMode 4 -ForestMode 4 -InstallDns
 </p>
 <br />
 
@@ -75,17 +65,43 @@ Define AD DS sites in Active Directory Sites and Services to optimize replicatio
 <img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Join on-premises machines to the Azure AD DS domain. Update DNS settings on these machines to point to Azure AD DS DNS servers.
+Verify Domain Controller Status:
+Use PowerShell commands like Get-ADDomainController to verify the status of the domain controllers.
+</p>
 
-Verify AD DS functionality:
-Ensure proper replication.
-Test domain logons, user authentication, and group policy application.
 
-Implement regular backups of Active Directory using Azure Backup or other backup solutions.
+<p>
+  Configure DNS Settings:
+Ensure that DNS settings on each VM point to the IP address of the domain controller.
+</p>
 
-Establish a disaster recovery plan and test it to ensure quick recovery in case of issues.
+<p>
+  Create OUs:
+Use Active Directory Users and Computers (ADUC) to create organizational units (OUs) for organizing objects within Active Directory.</p>
 
-Set up monitoring for Azure resources and Active Directory health.
+<p>
+  Configure Group Policies:
+Use the Group Policy Management Console (GPMC) to create and apply Group Policies for managing settings across the domain.</p>
 
-Regularly update and patch Windows Server VMs.</p>
+
+<br />
+
+<p>
+<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+Add Users and Computers:
+Use ADUC to add user accounts and computer accounts to the Active Directory domain.</p>
+
+<p>
+  PowerShell for AD Tasks:
+Utilize PowerShell for various Active Directory tasks, such as user creation, group management, and organizational unit manipulation.</p>
+
+<p>
+  Backup AD Data:
+
+Implement regular backups of Active Directory using Windows Server Backup or other backup solutions.
+Disaster Recovery Plan:
+
+Establish a disaster recovery plan, including regular testing of backups and recovery procedures.</p>
 <br />
