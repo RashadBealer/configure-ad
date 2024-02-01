@@ -62,7 +62,7 @@ Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
 <br />
 
 <p>
-<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/ce89ism.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
 Verify Domain Controller Status:
